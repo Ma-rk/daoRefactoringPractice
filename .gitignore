@@ -1,0 +1,8 @@
+/.classpath
+.DS_Store
+/.project
+/.settings
+/target
+/tomcat.8080/
+
+/src/main/resources/ConnectionInfo.xml
