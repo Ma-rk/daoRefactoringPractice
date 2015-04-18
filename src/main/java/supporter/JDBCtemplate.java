@@ -7,10 +7,8 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dao.UserDao;
-
 public abstract class JDBCtemplate extends JDBCmanager {
-	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
+	private static final Logger logger = LoggerFactory.getLogger(JDBCtemplate.class);
 
 	public int jdbcUpdate(String qry) {
 		Connection conn = getConnection();

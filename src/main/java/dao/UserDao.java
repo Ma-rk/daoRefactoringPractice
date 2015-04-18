@@ -1,20 +1,14 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import supporter.JDBCmanager;
 import supporter.JDBCtemplate;
+import supporter.SelectJDBCtemplate;
 import entity.UserEntity;
 
 public class UserDao {
-	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
-
 	public int insertUser(final UserEntity user) {
 		JDBCtemplate jdbct = new JDBCtemplate() {
 			@Override
@@ -50,28 +44,21 @@ public class UserDao {
 		return jdbct.jdbcUpdate("update user set name = ?, email = ?, passwd = ? where uid = ?");
 	}
 
-	public UserEntity retrieveUser(UserEntity user) {
-		JDBCmanager jdbc = new JDBCmanager();
-		Connection conn = jdbc.getConnection();
-
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-		String qry = "select uid, name, email, passwd from user where uid = ?";
-
-		try {
-			pstmt = conn.prepareStatement(qry);
-			pstmt.setLong(1, user.getUid());
-			logger.debug(pstmt.toString());
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				user = new UserEntity(rs.getLong("uid"), rs.getString("name"), rs.getString("email"), rs.getString("passwd"));
+	public UserEntity retrieveUser(final UserEntity user) {
+		SelectJDBCtemplate jdbct=new SelectJDBCtemplate() {
+			@Override
+			public void setParams(PreparedStatement pstmt) throws SQLException {
+				pstmt.setLong(1, user.getUid());
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			jdbc.close(rs, pstmt, conn);
-		}
-		logger.info(user.toString());
-		return user;
+			@Override
+			public Object mapRow(ResultSet rs) throws SQLException {
+				if (rs.next()) {
+					UserEntity retrievedUser = new UserEntity(rs.getLong("uid"), rs.getString("name"), rs.getString("email"), rs.getString("passwd"));
+					return retrievedUser;
+				}
+				return null;
+			}
+		};
+		return (UserEntity)jdbct.jdbcRetrieve("select uid, name, email, passwd from user where uid = ?");
 	}
 }

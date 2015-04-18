@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class JDBCmanager {
 	private static final Logger logger = LoggerFactory.getLogger(JDBCmanager.class);
 
-	public Connection getConnection() {
+	public static Connection getConnection() {
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -25,7 +25,7 @@ public class JDBCmanager {
 			String addr = ResourceAccesser.dbInfo.get("address");
 			String user = ResourceAccesser.dbInfo.get("connectionId");
 			String pw = ResourceAccesser.dbInfo.get("connectionPassWd");
-			logger.debug("addr: {}, user:{}, pw: {}", addr, user, pw);
+			logger.info("addr: {}, user:{}, pw: {}", addr, user, pw);
 			conn = DriverManager.getConnection(addr, user, pw);
 			logger.info("Connection Successed.");
 		} catch (SQLException e) {
@@ -34,7 +34,7 @@ public class JDBCmanager {
 		return conn;
 	}
 
-	public void close(ResultSet rs, PreparedStatement pm, Connection cn) {
+	public static void close(ResultSet rs, PreparedStatement pm, Connection cn) {
 		close(pm, cn);
 		
 		try {
@@ -46,7 +46,7 @@ public class JDBCmanager {
 		}
 	}
 
-	public void close(PreparedStatement pm, Connection cn) {
+	public static void close(PreparedStatement pm, Connection cn) {
 		try {
 			if (pm != null) {
 				pm.close();

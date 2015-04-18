@@ -24,7 +24,7 @@ public class DaoControllerTest {
 	@Test
 	public void retrieveUserController() {
 		DaoController daoCont = new DaoController();
-		assertNotNull(daoCont.retrieveUserController(17l));
+		assertNotNull(daoCont.retrieveUserController(22l));
 	}
 	
 	@Test
