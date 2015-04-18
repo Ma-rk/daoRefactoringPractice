@@ -21,6 +21,6 @@ public class DaoController {
 
 	public int updateUserController(long uid, String name, String email, String passwd) {
 		UserDao uDao = new UserDao();
-		return uDao.updateUser(uid, name, email, passwd);
+		return uDao.updateUser(new UserEntity(uid, name, email, passwd));
 	}
 }

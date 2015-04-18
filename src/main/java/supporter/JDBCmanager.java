@@ -12,10 +12,6 @@ import org.slf4j.LoggerFactory;
 public class JDBCmanager {
 	private static final Logger logger = LoggerFactory.getLogger(JDBCmanager.class);
 
-	public ResultSet resultSet = null;
-	public PreparedStatement pstmt = null;
-	public Connection conn = null;
-
 	public Connection getConnection() {
 		Connection conn = null;
 		try {
@@ -39,11 +35,12 @@ public class JDBCmanager {
 	}
 
 	public void close(ResultSet rs, PreparedStatement pm, Connection cn) {
+		close(pm, cn);
+		
 		try {
 			if (rs != null) {
 				rs.close();
 			}
-			close(pm, cn);
 		} catch (Exception e) {
 			e.toString();
 		}

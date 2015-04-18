@@ -12,13 +12,13 @@ public class DaoControllerTest {
 	@Test
 	public void insertUserController() {
 		DaoController daoCont = new DaoController();
-		assertEquals(1, daoCont.insertUserController("mark9", "k.mark9@gmail.com", "pwpw"));
+		assertEquals(1, daoCont.insertUserController("mark9", "9@gmail.com", "pwpw"));
 	}
 
 	@Test
 	public void deleteUserController() {
 		DaoController daoCont = new DaoController();
-		assertEquals(1, daoCont.deleteUserController(17l));
+		assertEquals(1, daoCont.deleteUserController(21l));
 	}
 
 	@Test
@@ -30,6 +30,6 @@ public class DaoControllerTest {
 	@Test
 	public void updateUserController() {
 		DaoController daoCont = new DaoController();
-		assertEquals(1, daoCont.updateUserController(17l, "seo", "taiji17@", "com"));
+		assertEquals(1, daoCont.updateUserController(28l, "seo", "taiji17@", "com"));
 	}
 }
