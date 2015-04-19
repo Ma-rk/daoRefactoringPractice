@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class JDBCmanager {
 	private static final Logger logger = LoggerFactory.getLogger(JDBCmanager.class);
 
@@ -36,10 +35,11 @@ public class JDBCmanager {
 
 	public static void close(ResultSet rs, PreparedStatement pm, Connection cn) {
 		close(pm, cn);
-		
+
 		try {
 			if (rs != null) {
 				rs.close();
+				logger.info("ResultSet closed.");
 			}
 		} catch (Exception e) {
 			e.toString();
@@ -50,9 +50,11 @@ public class JDBCmanager {
 		try {
 			if (pm != null) {
 				pm.close();
+				logger.info("PreparedStatement closed.");
 			}
 			if (cn != null) {
 				cn.close();
+				logger.info("Connection closed.");
 			}
 		} catch (Exception e) {
 			e.toString();

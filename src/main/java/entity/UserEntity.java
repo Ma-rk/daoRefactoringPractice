@@ -47,5 +47,4 @@ public class UserEntity {
 	public String toString() {
 		return "UserDto [uid=" + uid + ", name=" + name + ", email=" + email + ", passwd=" + passwd + "]";
 	}
-
 }

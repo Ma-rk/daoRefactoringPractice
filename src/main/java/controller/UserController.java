@@ -3,7 +3,7 @@ package controller;
 import dao.UserDao;
 import entity.UserEntity;
 
-public class DaoController {
+public class UserController {
 	public int insertUserController(String name, String email, String passwd) {
 		UserDao uDao = new UserDao();
 		return uDao.insertUser(new UserEntity(name, email, passwd));
@@ -18,7 +18,7 @@ public class DaoController {
 		UserDao uDao = new UserDao();
 		return uDao.updateUser(new UserEntity(uid, name, email, passwd));
 	}
-	
+
 	public UserEntity retrieveUserController(long uid) {
 		UserDao uDao = new UserDao();
 		return uDao.retrieveUser(new UserEntity(uid));
