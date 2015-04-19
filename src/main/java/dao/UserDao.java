@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +11,7 @@ import supporter.RowMapper;
 import entity.UserEntity;
 
 public class UserDao {
-	public int insertUser(final UserEntity user) {
+	public int insertUser(final UserEntity user, Connection conn) {
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			public void setPstmt(PreparedStatement pstmt) throws SQLException {
 				pstmt.setString(1, user.getName());
@@ -19,33 +20,10 @@ public class UserDao {
 			}
 		};
 		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcUpdate("insert into user(name, email, passwd) values (?, ?, ?)", pss);
+		return jdbct.jdbcUpdate("insert into user(name, email, passwd) values (?, ?, ?)", pss, conn);
 	}
-
-	public int deleteUser(final UserEntity user) {
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			public void setPstmt(PreparedStatement pstmt) throws SQLException {
-				pstmt.setLong(1, user.getUid());
-			}
-		};
-		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcUpdate("delete from user where uid = ?", pss);
-	}
-
-	public int updateUser(final UserEntity user) {
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			public void setPstmt(PreparedStatement pstmt) throws SQLException {
-				pstmt.setString(1, user.getName());
-				pstmt.setString(2, user.getEmail());
-				pstmt.setString(3, user.getPasswd());
-				pstmt.setLong(4, user.getUid());
-			}
-		};
-		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcUpdate("update user set name = ?, email = ?, passwd = ? where uid = ?", pss);
-	}
-
-	public UserEntity retrieveUser(final UserEntity user) {
+	
+	public UserEntity retrieveUser(final UserEntity user, Connection conn) {
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			public void setPstmt(PreparedStatement pstmt) throws SQLException {
 				pstmt.setLong(1, user.getUid());
@@ -57,6 +35,29 @@ public class UserDao {
 			}
 		};
 		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcRetrieve("select uid, name, email, passwd from user where uid = ?", pss, rm);
+		return jdbct.jdbcRetrieve("select uid, name, email, passwd from user where uid = ?", pss, rm, conn);
+	}
+
+	public int updateUser(final UserEntity user, Connection conn) {
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			public void setPstmt(PreparedStatement pstmt) throws SQLException {
+				pstmt.setString(1, user.getName());
+				pstmt.setString(2, user.getEmail());
+				pstmt.setString(3, user.getPasswd());
+				pstmt.setLong(4, user.getUid());
+			}
+		};
+		JDBCtemplate jdbct = new JDBCtemplate();
+		return jdbct.jdbcUpdate("update user set name = ?, email = ?, passwd = ? where uid = ?", pss, conn);
+	}
+
+	public int deleteUser(final UserEntity user, Connection conn) {
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			public void setPstmt(PreparedStatement pstmt) throws SQLException {
+				pstmt.setLong(1, user.getUid());
+			}
+		};
+		JDBCtemplate jdbct = new JDBCtemplate();
+		return jdbct.jdbcUpdate("delete from user where uid = ?", pss, conn);
 	}
 }

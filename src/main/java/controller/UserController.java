@@ -1,7 +1,6 @@
 package controller;
 
 import biz.UserBiz;
-import dao.UserDao;
 import entity.UserEntity;
 
 public class UserController {

@@ -16,20 +16,20 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void deleteUserController() {
-		UserController uCont = new UserController();
-		assertEquals(1, uCont.deleteUserController(33l));
-	}
-
-	@Test
 	public void retrieveUserController() {
 		UserController uCont = new UserController();
-		assertNotNull(uCont.retrieveUserController(31l));
+		assertNotNull(uCont.retrieveUserController(1l));
 	}
 
 	@Test
 	public void updateUserController() {
 		UserController uCont = new UserController();
-		assertEquals(1, uCont.updateUserController(31l, "seo", "2taiji13@", "com"));
+		assertEquals(1, uCont.updateUserController(1l, "seo", "2taiji13@", "com"));
+	}
+	
+	@Test
+	public void deleteUserController() {
+		UserController uCont = new UserController();
+		assertEquals(1, uCont.deleteUserController(1l));
 	}
 }

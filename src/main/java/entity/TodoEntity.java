@@ -33,6 +33,10 @@ public class TodoEntity {
 		return tid;
 	}
 
+	public void setTid(long tid) {
+		this.tid = tid;
+	}
+
 	public long getAssigner_id() {
 		return assigner_id;
 	}

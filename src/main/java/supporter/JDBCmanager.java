@@ -2,9 +2,8 @@ package supporter;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.PreparedStatement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,28 +31,10 @@ public class JDBCmanager {
 		}
 		return conn;
 	}
-
-	public static void close(ResultSet rs, PreparedStatement pm, Connection cn) {
-		close(pm, cn);
-
+	public static void close(Connection conn) {
 		try {
-			if (rs != null) {
-				rs.close();
-				logger.info("ResultSet closed.");
-			}
-		} catch (Exception e) {
-			e.toString();
-		}
-	}
-
-	public static void close(PreparedStatement pm, Connection cn) {
-		try {
-			if (pm != null) {
-				pm.close();
-				logger.info("PreparedStatement closed.");
-			}
-			if (cn != null) {
-				cn.close();
+			if (conn != null) {
+				conn.close();
 				logger.info("Connection closed.");
 			}
 		} catch (Exception e) {

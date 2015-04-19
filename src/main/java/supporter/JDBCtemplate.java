@@ -8,11 +8,10 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JDBCtemplate extends JDBCmanager {
+public class JDBCtemplate {
 	private static final Logger logger = LoggerFactory.getLogger(JDBCtemplate.class);
 
-	public int jdbcUpdate(String qry, PreparedStatementSetter pss) {
-		Connection conn = getConnection();
+	public int jdbcUpdate(String qry, PreparedStatementSetter pss, Connection conn) {
 		PreparedStatement pstmt = null;
 
 		// return value
@@ -28,13 +27,12 @@ public class JDBCtemplate extends JDBCmanager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt, conn);
+			close(pstmt);
 		}
 		return manipulationResult;
 	}
 
-	public <T> T jdbcRetrieve(String qry, PreparedStatementSetter pss, RowMapper<T> rm) {
-		Connection conn = getConnection();
+	public <T> T jdbcRetrieve(String qry, PreparedStatementSetter pss, RowMapper<T> rm, Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -54,8 +52,31 @@ public class JDBCtemplate extends JDBCmanager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rs, pstmt, conn);
+			close(pstmt);
+			close(rs);
 		}
 		return retrievedObject;
+	}
+
+	public static void close(ResultSet rs) {
+		try {
+			if (rs != null) {
+				rs.close();
+				logger.info("ResultSet closed.");
+			}
+		} catch (Exception e) {
+			e.toString();
+		}
+	}
+
+	public static void close(PreparedStatement pm) {
+		try {
+			if (pm != null) {
+				pm.close();
+				logger.info("PreparedStatement closed.");
+			}
+		} catch (Exception e) {
+			e.toString();
+		}
 	}
 }
