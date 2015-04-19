@@ -26,9 +26,31 @@ public class TodoBiz extends JDBCmanager {
 		Connection conn = getConnection();
 		boolean updateResult = false;
 		
-		if (tDao.updateDao(todo, conn) == 1 && tDao.selectInsertTodoHistory(todo.getTid(), conn) == 1)
+		if (tDao.updateToto(todo, conn) == 1 && tDao.selectInsertTodoHistory(todo.getTid(), conn) == 1)
 			updateResult = true;
 		close(conn);
 		return updateResult;
+	}
+
+	public boolean completeTodoAndHistory(TodoEntity todo) {
+		TodoDao tDao = new TodoDao();
+		Connection conn = getConnection();
+		boolean completeResult = false;
+		
+		if (tDao.completeTodo(todo, conn) == 1 && tDao.selectInsertTodoHistory(todo.getTid(), conn) == 1)
+			completeResult = true;
+		close(conn);
+		return completeResult;
+	}
+
+	public boolean deleteTodoAndHistory(TodoEntity todo) {
+		TodoDao tDao = new TodoDao();
+		Connection conn = getConnection();
+		boolean completeResult = false;
+		
+		if (tDao.deleteTodo(todo, conn) == 1 && tDao.selectInsertTodoHistory(todo.getTid(), conn) == 1)
+			completeResult = true;
+		close(conn);
+		return completeResult;
 	}
 }

@@ -18,4 +18,16 @@ public class TodoControllerTest {
 		TodoController tCont = new TodoController();
 		assertTrue(tCont.updateTodoAndHistoryController(1l, 1l, -1l, "updated title.", "uppdated contents.", "1983-04-08"));
 	}
+
+	@Test
+	public void completeTodoAndHistoryControllerTest() {
+		TodoController tCont = new TodoController();
+		assertTrue(tCont.completeTodoAndHistoryController(3l, 10l));
+	}
+	
+	@Test
+	public void deleteTodoAndHistoryControllerTest() {
+		TodoController tCont = new TodoController();
+		assertTrue(tCont.deleteTodoAndHistoryController(3l, 10l));
+	}
 }
