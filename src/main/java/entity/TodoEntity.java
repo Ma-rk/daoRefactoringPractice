@@ -2,7 +2,7 @@ package entity;
 
 public class TodoEntity {
 	long tid;
-	long assigner_id;
+	long handlerId;
 	long pid;
 	String title;
 	String contents;
@@ -10,8 +10,18 @@ public class TodoEntity {
 	String complete;
 
 	// for todo creation
-	public TodoEntity(long assigner_id, long pid, String title, String contents, String dueDate) {
-		this.assigner_id = assigner_id;
+	public TodoEntity(long handlerId, long pid, String title, String contents, String dueDate) {
+		this.handlerId = handlerId;
+		this.pid = pid;
+		this.title = title;
+		this.contents = contents;
+		this.dueDate = dueDate;
+	}
+	
+	// for todo creation
+	public TodoEntity(long tid, long handlerId, long pid, String title, String contents, String dueDate) {
+		this.tid = tid;
+		this.handlerId = handlerId;
 		this.pid = pid;
 		this.title = title;
 		this.contents = contents;
@@ -19,9 +29,9 @@ public class TodoEntity {
 	}
 
 	// for exiting todo modification
-	public TodoEntity(long tid, long assigner_id, long pid, String title, String contents, String dueDate, String complete, String last_editer_id) {
+	public TodoEntity(long tid, long handlerId, long pid, String title, String contents, String dueDate, String complete, String last_editer_id) {
 		this.tid = tid;
-		this.assigner_id = assigner_id;
+		this.handlerId = handlerId;
 		this.pid = pid;
 		this.title = title;
 		this.contents = contents;
@@ -37,8 +47,8 @@ public class TodoEntity {
 		this.tid = tid;
 	}
 
-	public long getAssigner_id() {
-		return assigner_id;
+	public long getHandlerId() {
+		return handlerId;
 	}
 
 	public long getPid() {
@@ -63,7 +73,7 @@ public class TodoEntity {
 
 	@Override
 	public String toString() {
-		return "TodoEntity [tid=" + tid + ", assigner_id=" + assigner_id + ", pid=" + pid + ", title=" + title + ", contents=" + contents + ", dueDate=" + dueDate
+		return "TodoEntity [tid=" + tid + ", assigner_id=" + handlerId + ", pid=" + pid + ", title=" + title + ", contents=" + contents + ", dueDate=" + dueDate
 				+ ", complete=" + complete + "]";
 	}
 }

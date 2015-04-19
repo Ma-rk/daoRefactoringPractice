@@ -26,7 +26,7 @@ public class TodoDao {
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			public void setPstmt(PreparedStatement pstmt) throws SQLException {
 				pstmt.setLong(1, todo.getTid());
-				pstmt.setLong(2, todo.getAssigner_id());
+				pstmt.setLong(2, todo.getHandlerId());
 				pstmt.setString(3, todo.getTitle());
 				pstmt.setString(4, todo.getContents());
 				pstmt.setString(5, todo.getDueDate());
@@ -54,5 +54,19 @@ public class TodoDao {
 				+ "from todo where tid = ?";
 		JDBCtemplate jdbct = new JDBCtemplate();
 		return jdbct.jdbcUpdate(selectInsertQry, pss, conn);
+	}
+
+	public int updateDao(TodoEntity todo, Connection conn) {
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			public void setPstmt(PreparedStatement pstmt) throws SQLException {
+				pstmt.setLong(1, todo.getHandlerId());
+				pstmt.setString(2, todo.getTitle());
+				pstmt.setString(3, todo.getContents());
+				pstmt.setString(4, todo.getDueDate());
+				pstmt.setLong(5, todo.getTid());
+			}
+		};
+		JDBCtemplate jdbct = new JDBCtemplate();
+		return jdbct.jdbcUpdate("update todo set handler_id = ?, title = ?, contents = ?, duedate = ?, status = '110002' where tid = ?", pss, conn);
 	}
 }
