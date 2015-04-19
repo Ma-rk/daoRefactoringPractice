@@ -1,12 +1,10 @@
 package dao;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import supporter.JDBCtemplate;
 import supporter.PreparedStatementSetter;
-import supporter.RowMapper;
 import entity.TodoEntity;
 
 public class TodoDao {
@@ -21,16 +19,6 @@ public class TodoDao {
 		};
 		JDBCtemplate jdbct = new JDBCtemplate();
 		return jdbct.jdbcUpdate("insert into todo(handler_id, title, contents, duedate) values (?, ?, ?, ?)", pss);
-	}
-
-	public long retrieveNewestTodoId() {
-		RowMapper<Long> rm = new RowMapper<Long>() {
-			public Long mapRow(ResultSet rs) throws SQLException {
-				return rs.getLong("tid");
-			}
-		};
-		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcRetrieve("select max(tid) as 'tid' from todo", null, rm);
 	}
 
 	public int selectInsertTodoHistory() {
