@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class JDBCtemplate {
 	private static final Logger logger = LoggerFactory.getLogger(JDBCtemplate.class);
 
-	public int jdbcUpdate(String qry, PreparedStatementSetter pss, Connection conn) {
+	public int jdbcUpdate(String qry, Connection conn, Object... params) {
 		PreparedStatement pstmt = null;
 
 		// return value
@@ -19,8 +19,8 @@ public class JDBCtemplate {
 
 		try {
 			pstmt = conn.prepareStatement(qry);
-			if (pss != null)
-				pss.setPstmt(pstmt);
+			for (int i = 0; i < params.length; i++)
+				pstmt.setObject(i + 1, params[i]);
 			logger.info(pstmt.toString());
 			manipulationResult = pstmt.executeUpdate();
 			logger.info("[{}] lows manipulated.", manipulationResult);
@@ -32,7 +32,7 @@ public class JDBCtemplate {
 		return manipulationResult;
 	}
 
-	public <T> T jdbcRetrieve(String qry, PreparedStatementSetter pss, RowMapper<T> rm, Connection conn) {
+	public <T> T jdbcRetrieve(String qry, RowMapper<T> rm, Connection conn, Object... params) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -41,8 +41,9 @@ public class JDBCtemplate {
 
 		try {
 			pstmt = conn.prepareStatement(qry);
-			if (pss != null)
-				pss.setPstmt(pstmt);
+			for (int i = 0; i < params.length; i++) {
+				pstmt.setObject(i+1, params[i]);
+			}
 			logger.info(pstmt.toString());
 			rs = pstmt.executeQuery();
 			if (rs.next())

@@ -28,7 +28,7 @@ public class TodoEntity {
 		this.dueDate = dueDate;
 	}
 
-	// for exsiting todo modification
+	// for exiting todo modification
 	public TodoEntity(long tid, long handlerId, long pid, String title, String contents, String dueDate, String complete, String last_editer_id) {
 		this.tid = tid;
 		this.handlerId = handlerId;
@@ -39,7 +39,7 @@ public class TodoEntity {
 		this.complete = complete;
 	}
 
-	// for exsiting todo completion or deletion
+	// for exiting todo completion or deletion
 	public TodoEntity(long tid, long handlerId) {
 		this.tid = tid;
 		this.handlerId = handlerId;

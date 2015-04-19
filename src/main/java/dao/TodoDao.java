@@ -1,12 +1,10 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import supporter.JDBCtemplate;
-import supporter.PreparedStatementSetter;
 import supporter.RowMapper;
 import entity.TodoEntity;
 
@@ -19,29 +17,15 @@ public class TodoDao {
 			}
 		};
 		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcRetrieve("select max(tid) + 1 as 'newTodoId' from todo", null, rm, conn);
+		return jdbct.jdbcRetrieve("select max(tid) + 1 as 'newTodoId' from todo", rm, conn);
 	}
 
 	public int insertTodo(final TodoEntity todo, Connection conn) {
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			public void setPstmt(PreparedStatement pstmt) throws SQLException {
-				pstmt.setLong(1, todo.getTid());
-				pstmt.setLong(2, todo.getHandlerId());
-				pstmt.setString(3, todo.getTitle());
-				pstmt.setString(4, todo.getContents());
-				pstmt.setString(5, todo.getDueDate());
-			}
-		};
 		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcUpdate("insert into todo(tid, handler_id, title, contents, duedate) values (?, ?, ?, ?, ?)", pss, conn);
+		return jdbct.jdbcUpdate("insert into todo(tid, handler_id, title, contents, duedate) values (?, ?, ?, ?, ?)", conn, todo.getTid(), todo.getHandlerId(), todo.getTitle(), todo.getContents(), todo.getDueDate());
 	}
 
 	public int selectInsertTodoHistory(long newTid, Connection conn) {
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			public void setPstmt(PreparedStatement pstmt) throws SQLException {
-				pstmt.setLong(1, newTid);
-			}
-		};
 		String selectInsertQry = "insert into todo_history " 
 				+ "select (select max(hid)+1 from todo_history) as hid"
 				+ ", tid"
@@ -53,42 +37,21 @@ public class TodoDao {
 				+ ", now() as handled_time "
 				+ "from todo where tid = ?";
 		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcUpdate(selectInsertQry, pss, conn);
+		return jdbct.jdbcUpdate(selectInsertQry, conn, newTid);
 	}
 
 	public int updateToto(TodoEntity todo, Connection conn) {
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			public void setPstmt(PreparedStatement pstmt) throws SQLException {
-				pstmt.setLong(1, todo.getHandlerId());
-				pstmt.setString(2, todo.getTitle());
-				pstmt.setString(3, todo.getContents());
-				pstmt.setString(4, todo.getDueDate());
-				pstmt.setLong(5, todo.getTid());
-			}
-		};
 		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcUpdate("update todo set handler_id = ?, title = ?, contents = ?, duedate = ?, status = '110002' where tid = ?", pss, conn);
+		return jdbct.jdbcUpdate("update todo set handler_id = ?, title = ?, contents = ?, duedate = ?, status = '110002' where tid = ?", conn, todo.getHandlerId(), todo.getTitle(), todo.getContents(), todo.getDueDate(), todo.getTid());
 	}
 
 	public int completeTodo(TodoEntity todo, Connection conn) {
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			public void setPstmt(PreparedStatement pstmt) throws SQLException {
-				pstmt.setLong(1, todo.getHandlerId());
-				pstmt.setLong(2, todo.getTid());
-			}
-		};
 		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcUpdate("update todo set handler_id = ?, status = '110003' where tid = ?", pss, conn);
+		return jdbct.jdbcUpdate("update todo set handler_id = ?, status = '110003' where tid = ?", conn, todo.getHandlerId(), todo.getTid());
 	}
 	
 	public int deleteTodo(TodoEntity todo, Connection conn) {
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			public void setPstmt(PreparedStatement pstmt) throws SQLException {
-				pstmt.setLong(1, todo.getHandlerId());
-				pstmt.setLong(2, todo.getTid());
-			}
-		};
 		JDBCtemplate jdbct = new JDBCtemplate();
-		return jdbct.jdbcUpdate("update todo set handler_id = ?, status = '110004' where tid = ?", pss, conn);
+		return jdbct.jdbcUpdate("update todo set handler_id = ?, status = '110004' where tid = ?", conn, todo.getHandlerId(), todo.getTid());
 	}
 }

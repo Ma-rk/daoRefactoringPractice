@@ -12,24 +12,24 @@ public class UserControllerTest {
 	@Test
 	public void insertUserController() {
 		UserController uCont = new UserController();
-		assertEquals(1, uCont.insertUserController("mark2", "2@gmail.com", "pwpw"));
+		assertEquals(1, uCont.insertUserController("33mark", "33@gmail.com", "pwpw"));
 	}
 
 	@Test
 	public void retrieveUserController() {
 		UserController uCont = new UserController();
-		assertNotNull(uCont.retrieveUserController(1l));
+		assertNotNull(uCont.retrieveUserController(3l));
 	}
 
 	@Test
 	public void updateUserController() {
 		UserController uCont = new UserController();
-		assertEquals(1, uCont.updateUserController(1l, "seo", "2taiji13@", "com"));
+		assertEquals(1, uCont.updateUserController(3l, "3seo", "taiji13@", "com"));
 	}
 	
 	@Test
 	public void deleteUserController() {
 		UserController uCont = new UserController();
-		assertEquals(1, uCont.deleteUserController(1l));
+		assertEquals(1, uCont.deleteUserController(3l));
 	}
 }
